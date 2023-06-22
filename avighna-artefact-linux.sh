@@ -2,12 +2,24 @@
 
 export ROOT_DIR=$(pwd)
 
-npm install -g node-gyp
-
 # Make the default shell as bash
 echo "dash dash/sh boolean false" | debconf-set-selections
 DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
 ENV ENV ~/.profile
+
+# Install Python 3 and Pip 3 for Zipkin project
+apt update
+apt install software-properties-common
+echo | add-apt-repository ppa:deadsnakes/ppa
+apt update
+echo 'y' | apt install python3
+python3 --version
+apt-get install python3-pip -y
+pip3 --version
+ipip3 install --upgrade pip
+pip3 install setuptools
+
+npm install -g node-gyp
 
 # Install zip and unzip packages
 apt-get update -y && apt-get install -y zip
@@ -56,7 +68,7 @@ git checkout 8a4f4b9c9a5a3204d9663ecef39d687785369c9a
 bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk use java 8.0.352-librca && mvn clean install -DskipTests"
 git clone https://github.com/ranjithkris/pyramid_zipkin-example.git
 cd "$ROOT_DIR"/Spring-Projects/zipkin/pyramid_zipkin-example/ || exit
-pip install pyramid_zipkin -U
+pip3 install pyramid_zipkin -U
 python3 setup.py install
 
 # Install CGBench project
