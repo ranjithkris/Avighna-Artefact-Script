@@ -97,7 +97,13 @@ bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk use java 8.0.352-librca 
 
 # Install avighna which is used by helper runner
 cd "$root_dir"/avighna/ || exit
-bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk use java 8.0.352-librca && mvn clean install -DskipTests"
+mvn install:install-file \
+  -Dfile="$root_dir"/avighna-merger-1.0-SNAPSHOT-jar-with-dependencies.jar \
+  -DgroupId=de.fraunhofer.iem \
+  -DartifactId=avighna \
+  -Dversion=1.0-SNAPSHOT \
+  -Dpackaging=jar \
+  -DgeneratePom=true
 
 # Install CGBenchRunner
 cd "$root_dir"/CGBenchRunner/ || exit
