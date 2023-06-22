@@ -35,7 +35,7 @@ bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && yes | sdk install java 8.0.3
 apt-get update -y && apt-get install -y maven
 apt-get update -y && apt-get install -y graphviz
 
-cd "$ROOT_DIR"/Spring-Projects/ || exit
+cd "$ROOT_DIR"/Spring-Projects/zipkin/ || exit
 git clone https://github.com/ranjithkris/pyramid_zipkin-example.git
 cd "$ROOT_DIR"/Spring-Projects/zipkin/pyramid_zipkin-example/ || exit
 pip3 install pyramid_zipkin -U
