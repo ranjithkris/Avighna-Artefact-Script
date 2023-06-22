@@ -27,6 +27,7 @@ apt-get update -y && apt-get install -y graphviz
 cd "$root_dir"/ || exit
 chmod 755 "$root_dir"/avighna-agent-1.0.0.jar
 chmod 755 "$root_dir"/avighna-cmd-interface-1.0.0.jar
+chmod 755 "$root_dir"/avighna-merger-1.0-SNAPSHOT-jar-with-dependencies.jar
 mkdir Spring-Projects
 mkdir Reflection-Projects
 mkdir Guice-Projects
