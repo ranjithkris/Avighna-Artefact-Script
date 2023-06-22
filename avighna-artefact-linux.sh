@@ -63,7 +63,7 @@ python3 setup.py install
 cd "$ROOT_DIR"/Spring-Projects || exit
 git clone https://github.com/ranjithkris/CGBench.git
 cd "$ROOT_DIR"/Spring-Projects/CGBench/ || exit
-git checkout origin/for-avighna
+git checkout -b for-avighna origin/for-avighna
 # RUN git checkout 65820234b5b9a6f65bd69d78570a3caedee7f1a1
 rm -r guice-credentials/
 rm -r music-store/
