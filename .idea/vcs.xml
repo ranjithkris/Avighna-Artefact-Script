@@ -2,14 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Guice-Projects/streamflow" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Reflection-Projects/JavaReflectionTestCases" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Spring-Projects/CGBench" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Spring-Projects/fredbet" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Spring-Projects/spring-petclinic" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Spring-Projects/start.spring.io" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Spring-Projects/zipkin" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Spring-Projects/zipkin/pyramid_zipkin-example" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/avighna" vcs="Git" />
   </component>
 </project>
