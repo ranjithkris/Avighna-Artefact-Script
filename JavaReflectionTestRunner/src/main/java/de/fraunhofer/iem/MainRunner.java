@@ -132,10 +132,10 @@ public class MainRunner {
                         String appClassPath = JavaReflectionTestRootPath +
                                 File.separator + module + File.separator +
                                 "target" + File.separator + "classes";
-                        String dtsFileName = JavaReflectionTestRootPath +
+                        String dtsFileName = OUTPUT_ROOT_DIR +
                                 File.separator + module + File.separator +
                                 "avighna-agent-output" + File.separator + "dynamic_cg.dst";
-                        String hybridOutputPath = JavaReflectionTestRootPath +
+                        String hybridOutputPath = OUTPUT_ROOT_DIR +
                                 File.separator + module + File.separator +
                                 "avighna-agent-output" + File.separator +
                                 "hybrid-merger-output" + File.separator;
