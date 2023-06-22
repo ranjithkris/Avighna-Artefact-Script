@@ -101,7 +101,7 @@ cd "$root_dir"/ || exit
 mvn install:install-file \
   -Dfile="$root_dir"/avighna-merger-1.0-SNAPSHOT-jar-with-dependencies.jar \
   -DgroupId=de.fraunhofer.iem \
-  -DartifactId=avighna \
+  -DartifactId=avighna-merger \
   -Dversion=1.0-SNAPSHOT \
   -Dpackaging=jar \
   -DgeneratePom=true
