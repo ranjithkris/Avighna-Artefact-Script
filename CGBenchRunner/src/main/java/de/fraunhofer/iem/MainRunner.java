@@ -129,8 +129,8 @@ public class MainRunner {
                     avighnaOutputDir,
                     "-rap",
                     appPackageName,
-                //    "-sdf",
-                //    "-sif",
+                    "-sdf",
+                    "-sif",
                     "-lrf",
                     requestYamlFile
             };
