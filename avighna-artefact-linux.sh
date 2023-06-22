@@ -1,6 +1,6 @@
 #!/bin/bash
 
-env ROOT_DIR=$(pwd)
+export ROOT_DIR=$(pwd)
 
 npm install -g node-gyp
 
