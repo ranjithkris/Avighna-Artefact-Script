@@ -30,6 +30,7 @@ bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && yes | sdk install java 8.0.3
 
 mkdir "$ROOT_DIR"/Reflection-Projects/
 
+cd "$ROOT_DIR"/Spring-Projects/zipkin/ || exit
 git clone https://github.com/ranjithkris/pyramid_zipkin-example.git
 cd "$ROOT_DIR"/Spring-Projects/zipkin/pyramid_zipkin-example/ || exit
 pip install pyramid_zipkin -U
