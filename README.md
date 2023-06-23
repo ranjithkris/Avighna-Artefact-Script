@@ -196,10 +196,16 @@ java -Xbootclasspath/p:JarFiles/avighna-agent-1.0.0.jar -javaagent:JarFiles/avig
 
 ## CGBench and JavaTestReflection
 
-Just run the below two jar file
+- For CGBench, run the below runner jar
 
 ````shell
 java -jar CGBenchRunner/target/CGBenchRunner-1.0.0-jar-with-dependencies.jar
+````
+
+- 
+- For JavaReflection test cases, run the below runner jar
+
+````shell
 java -jar JavaReflectionTestRunner/target/JavaReflectionTestRunner-1.0.0-jar-with-dependencies.jar
 ````
 
