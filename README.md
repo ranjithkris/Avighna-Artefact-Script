@@ -202,7 +202,6 @@ java -Xbootclasspath/p:JarFiles/avighna-agent-1.0.0.jar -javaagent:JarFiles/avig
 java -jar CGBenchRunner/target/CGBenchRunner-1.0.0-jar-with-dependencies.jar
 ````
 
-- 
 - For JavaReflection test cases, run the below runner jar
 
 ````shell
