@@ -33,8 +33,12 @@ mkdir "$ROOT_DIR"/JarFiles/Reflection-Projects/
 cd "$ROOT_DIR"/JarFiles/Spring-Projects/zipkin/ || exit
 git clone https://github.com/ranjithkris/pyramid_zipkin-example.git
 cd "$ROOT_DIR"/JarFiles/Spring-Projects/zipkin/pyramid_zipkin-example/ || exit
+python3 -m venv venv
+source venv/bin/activate
+python3 -m pip install --upgrade pip
 pip install pyramid_zipkin -U
 python3 setup.py install
+pip3 install requests
 
 # Install CGBench project
 cd "$ROOT_DIR"/JarFiles/Spring-Projects || exit
