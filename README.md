@@ -199,8 +199,8 @@ java -Xbootclasspath/p:JarFiles/avighna-agent-1.0.0.jar -javaagent:JarFiles/avig
 Just run the below two jar file
 
 ````shell
-java -jar CGBenchRunner/target/CGBenchRunner-1.0-SNAPSHOT-jar-with-dependencies.jar
-java -jar JavaReflectionTestRunner/target/JavaReflectionTestRunner-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar CGBenchRunner/target/CGBenchRunner-1.0.0-jar-with-dependencies.jar
+java -jar JavaReflectionTestRunner/target/JavaReflectionTestRunner-1.0.0-jar-with-dependencies.jar
 ````
 
 **Note:**

@@ -82,6 +82,11 @@ mvn install:install-file \
 cd "$ROOT_DIR"/ || exit
 bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk use java 8.0.352-librca && mvn clean install -DskipTests"
 
+chmod 755 CGBenchRunner/target/CGBenchRunner-1.0.0-jar-with-dependencies.jar
+chmod 755 CGBenchRunner/target/CGBenchRunner-1.0.0.jar
+chmod 755 JavaReflectionTestRunner/target/JavaReflectionTestRunner-1.0.0-jar-with-dependencies.jar
+chmod 755 JavaReflectionTestRunner/target/JavaReflectionTestRunner-1.0.0.jar
+
 # Make Java 8 as default
 bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk default java 8.0.352-librca"
 bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk use java 8.0.352-librca"
