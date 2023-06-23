@@ -28,6 +28,8 @@ curl -s "https://get.sdkman.io" | bash
 bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && yes | sdk install java 11.0.17-librca"
 bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && yes | sdk install java 8.0.352-librca"
 
+mkdir "$ROOT_DIR"/Reflection-Projects/
+
 git clone https://github.com/ranjithkris/pyramid_zipkin-example.git
 cd "$ROOT_DIR"/Spring-Projects/zipkin/pyramid_zipkin-example/ || exit
 pip install pyramid_zipkin -U
