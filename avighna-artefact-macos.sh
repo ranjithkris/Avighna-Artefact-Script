@@ -2,6 +2,20 @@
 
 export ROOT_DIR=$(pwd)
 
+# Install the required packages
+brew update
+brew install python@3
+python3 --version
+pip3 --version
+pip3 install --upgrade pip
+pip3 install setuptools
+brew install maven
+brew install graphviz
+brew install node
+node --version
+npm --version
+npm install -g yarn
+yarn --version
 npm install -g node-gyp
 
 # Install zip and unzip packages
@@ -13,10 +27,6 @@ curl -s "https://get.sdkman.io" | bash
 
 bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && yes | sdk install java 11.0.17-librca"
 bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && yes | sdk install java 8.0.352-librca"
-
-#Install Maven and Graphviz
-brew install maven
-brew install graphviz
 
 git clone https://github.com/ranjithkris/pyramid_zipkin-example.git
 cd "$ROOT_DIR"/Spring-Projects/zipkin/pyramid_zipkin-example/ || exit
