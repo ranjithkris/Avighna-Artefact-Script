@@ -19,7 +19,7 @@ public class MainRunner {
     private static final String JavaReflectionTestRootPath = "JarFiles/Reflection-Projects/JavaReflectionTestCases";
 
     private static final String OUTPUT_ROOT_DIR = "avighna-output/Reflection-Projects/JavaReflectionTestCases";
-    private static final String ROOT_BASE_PACKAGE = "de.fraunhofer.iem";
+    private static final String ROOT_BASE_PACKAGE = "de.fraunhofer.iem.";
     private static final String AVIGHNA_CMD_JAR = "JarFiles/avighna-cmd-interface-1.0.0.jar";
     private static final String AVIGHNA_AGENT_JAR = "JarFiles/avighna-agent-1.0.0.jar";
     private static void runJava(ProcessBuilder processBuilder) {
