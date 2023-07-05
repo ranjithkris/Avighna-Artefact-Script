@@ -8,7 +8,10 @@ import de.fraunhofer.iem.hybridCG.HybridCallGraph;
 import de.fraunhofer.iem.hybridCG.ImageType;
 import org.apache.commons.io.FileUtils;
 import soot.*;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Edge;
 import soot.options.Options;
+import soot.util.dot.DotGraph;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -143,11 +146,15 @@ public class MainRunner {
 
                 System.out.println("Merging = ");
 
-                initializeSoot(appClassPath, dstFile);
-
                 System.out.println(file2.mkdir());
 
-                new HybridCallGraph().merge(
+                initializeSoot(appClassPath, null);
+
+                int numberOfEdgesInPureStaticCallgraph = generateInitialDotGraph();
+
+                initializeSoot(appClassPath, dstFile);
+
+                new HybridCallGraph(true, numberOfEdgesInPureStaticCallgraph).merge(
                         dstFile,
                         Scene.v().getCallGraph(),
                         mergerOutputDir,
@@ -162,6 +169,32 @@ public class MainRunner {
         }
     }
 
+    private static int generateInitialDotGraph() {
+        CallGraph callGraph = Scene.v().getCallGraph();
+
+        int numberOfEdgesInStaticCallGraph = 0;
+        DotGraph dotGraph = new DotGraph("final:callgraph");
+
+        for (Edge edge : callGraph) {
+            String node_src = edge.getSrc().toString();
+            String node_tgt = edge.getTgt().toString();
+
+            if (node_src.startsWith("<java.") || node_tgt.startsWith("<java.")) continue;
+
+            if (node_src.startsWith("<sun.") || node_tgt.startsWith("<sun.")) continue;
+
+            if (node_src.startsWith("<javax.") || node_tgt.startsWith("<javax.")) continue;
+
+            if (node_src.startsWith("<jdk.") || node_tgt.startsWith("<jdk.")) continue;
+
+            if (node_src.startsWith("<com.sun.crypto.provider.") || node_tgt.startsWith("<com.sun.crypto.provider.")) continue;
+
+            ++numberOfEdgesInStaticCallGraph;
+        }
+
+        return numberOfEdgesInStaticCallGraph;
+    }
+
     private static void initializeSoot(String appClassPath, String dtsFileName) throws DtsZipUtilException, FileNotFoundException {
         //TODO: Remove this after testing
         G.reset();
@@ -172,8 +205,15 @@ public class MainRunner {
         Options.v().setPhaseOption("cg", "all-reachable:true");
         Options.v().set_allow_phantom_refs(true);
 
-        String dynamicCP = new HybridCallGraph().getDynamicClassesPath(dtsFileName);
-        Options.v().set_soot_classpath(appClassPath + File.pathSeparator + dynamicCP);
+        String dynamicCP = null;
+
+        if (dtsFileName == null) {
+            Options.v().set_soot_classpath(appClassPath + File.pathSeparator);
+        } else {
+            dynamicCP = new HybridCallGraph().getDynamicClassesPath(dtsFileName);
+            System.out.println();
+            Options.v().set_soot_classpath(appClassPath + File.pathSeparator + dynamicCP);
+        }
 
         Options.v().set_prepend_classpath(true);
         Options.v().set_whole_program(true);
@@ -186,8 +226,10 @@ public class MainRunner {
 
         List<String> appClasses = new ArrayList<>(FilesUtils.getClassesAsList(appClassPath));
 
-        if (new File(dynamicCP).exists()) {
-            appClasses.addAll(new ArrayList<>(FilesUtils.getClassesAsList(dynamicCP)));
+        if (dtsFileName != null) {
+            if (new File(dynamicCP).exists()) {
+                appClasses.addAll(new ArrayList<>(FilesUtils.getClassesAsList(dynamicCP)));
+            }
         }
 
         List<SootMethod> entries = new ArrayList<SootMethod>();

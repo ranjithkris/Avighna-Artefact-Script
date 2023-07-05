@@ -7,7 +7,10 @@ import de.fraunhofer.iem.exception.UnexpectedError;
 import de.fraunhofer.iem.hybridCG.HybridCallGraph;
 import de.fraunhofer.iem.hybridCG.ImageType;
 import soot.*;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Edge;
 import soot.options.Options;
+import soot.util.dot.DotGraph;
 
 import java.io.*;
 import java.nio.file.Paths;
@@ -39,6 +42,32 @@ public class MainRunner {
         }
     }
 
+    private static int generateInitialDotGraph() {
+        CallGraph callGraph = Scene.v().getCallGraph();
+
+        int numberOfEdgesInStaticCallGraph = 0;
+        DotGraph dotGraph = new DotGraph("final:callgraph");
+
+        for (Edge edge : callGraph) {
+            String node_src = edge.getSrc().toString();
+            String node_tgt = edge.getTgt().toString();
+
+            if (node_src.startsWith("<java.") || node_tgt.startsWith("<java.")) continue;
+
+            if (node_src.startsWith("<sun.") || node_tgt.startsWith("<sun.")) continue;
+
+            if (node_src.startsWith("<javax.") || node_tgt.startsWith("<javax.")) continue;
+
+            if (node_src.startsWith("<jdk.") || node_tgt.startsWith("<jdk.")) continue;
+
+            if (node_src.startsWith("<com.sun.crypto.provider.") || node_tgt.startsWith("<com.sun.crypto.provider.")) continue;
+
+            ++numberOfEdgesInStaticCallGraph;
+        }
+
+        return numberOfEdgesInStaticCallGraph;
+    }
+
     private static void initializeSoot(String appClassPath, String dtsFileName) throws DtsZipUtilException, FileNotFoundException {
         //TODO: Remove this after testing
         G.reset();
@@ -49,12 +78,20 @@ public class MainRunner {
         Options.v().setPhaseOption("cg", "all-reachable:true");
         Options.v().set_allow_phantom_refs(true);
 
+        String dynamicCP = null;
+
+        if (dtsFileName == null) {
+            Options.v().set_soot_classpath(appClassPath + File.pathSeparator);
+        } else {
+            dynamicCP = new HybridCallGraph().getDynamicClassesPath(dtsFileName);
+            System.out.println();
+            Options.v().set_soot_classpath(appClassPath + File.pathSeparator + dynamicCP);
+        }
+
         Options.v().set_prepend_classpath(true);
         Options.v().set_whole_program(true);
         Options.v().set_allow_phantom_refs(true);
-        Options.v().setPhaseOption("cg", "safe-forname:false");
 
-        Options.v().set_soot_classpath(appClassPath);
         Options.v().setPhaseOption("jb", "use-original-names:true");
         //Options.v().setPhaseOption("jb.lns", "enabled:false");
 
@@ -62,14 +99,12 @@ public class MainRunner {
 
         List<String> appClasses = new ArrayList<>(FilesUtils.getClassesAsList(appClassPath));
 
-        String dynamicCP = new HybridCallGraph().getDynamicClassesPath(dtsFileName);
-
-        if (new File(dynamicCP).exists()) {
-            Options.v().set_soot_classpath(appClassPath + File.pathSeparator + dynamicCP);
-            appClasses.addAll(new ArrayList<>());
+        if (dtsFileName != null) {
+            if (new File(dynamicCP).exists()) {
+                appClasses.addAll(new ArrayList<>(FilesUtils.getClassesAsList(dynamicCP)));
+            }
         }
 
-        System.out.println(appClasses);
         List<SootMethod> entries = new ArrayList<SootMethod>();
         for (String appClass : appClasses) {
             System.out.println(appClass);
@@ -140,9 +175,13 @@ public class MainRunner {
                                 "avighna-agent-output" + File.separator +
                                 "hybrid-merger-output" + File.separator;
 
+                        initializeSoot(appClassPath, null);
+
+                        int numberOfEdgesInPureStaticCallgraph = generateInitialDotGraph();
+
                         initializeSoot(appClassPath, dtsFileName);
 
-                        new HybridCallGraph().merge(
+                        new HybridCallGraph(true, numberOfEdgesInPureStaticCallgraph).merge(
                                 dtsFileName,
                                 Scene.v().getCallGraph(),
                                 hybridOutputPath,
