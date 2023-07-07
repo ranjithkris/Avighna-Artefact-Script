@@ -6,6 +6,10 @@ import de.fraunhofer.iem.exception.DtsZipUtilException;
 import de.fraunhofer.iem.exception.UnexpectedError;
 import de.fraunhofer.iem.hybridCG.HybridCallGraph;
 import de.fraunhofer.iem.hybridCG.ImageType;
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.model.FileHeader;
+import net.lingala.zip4j.model.ZipParameters;
+import org.apache.commons.io.FileUtils;
 import soot.*;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
@@ -118,6 +122,34 @@ public class MainRunner {
         PackManager.v().getPack("cg").apply();
     }
 
+    private static void mergeZipFiles(File dst1, File dst2, File dstOut) throws IOException {
+        List<File> zipFilesToMerge = Arrays.asList(
+                dst1,
+                dst2
+        );
+
+        ZipFile mergedZipFile = new ZipFile(dstOut.getAbsoluteFile().getAbsolutePath());
+
+        for (File fileToMerge : zipFilesToMerge) {
+            ZipFile zipFileToMerge = new ZipFile(fileToMerge);
+
+            for (FileHeader fileHeader : zipFileToMerge.getFileHeaders()) {
+                try (InputStream inputStream = zipFileToMerge.getInputStream(fileHeader)) {
+                    ZipParameters zipParameters = getZipParametersFromFileHeader(fileHeader);
+                    mergedZipFile.addStream(inputStream, zipParameters);
+                }
+            }
+        }
+    }
+
+    private static ZipParameters getZipParametersFromFileHeader(FileHeader fileHeader) {
+        ZipParameters zipParameters = new ZipParameters();
+        zipParameters.setCompressionMethod(fileHeader.getCompressionMethod());
+        zipParameters.setFileNameInZip(fileHeader.getFileName());
+        return zipParameters;
+    }
+
+
     public static void main(String[] args) throws IOException, UnexpectedError, DotToImgException, DtsSerializeUtilException, DtsZipUtilException {
         File rootProjectDir = new File(JavaReflectionTestRootPath);
         String[] modules = rootProjectDir.list();
@@ -135,6 +167,58 @@ public class MainRunner {
                 switch (module) {
                     case "CSR2":
                     case "LRR2":
+                        System.out.println("Running for " + module);
+                        List<String> lrr2Arguments = Arrays.asList("param1:param2", "param1");
+
+                        File mainOutputDir = new File(OUTPUT_ROOT_DIR + File.separator + module + File.separator + "avighna-agent-output");
+                        mainOutputDir.mkdirs();
+
+                        String dst1 = "";
+                        String dst2 = "";
+                        String dstOut = mainOutputDir.getAbsolutePath() + "dynamic_cg.dst";
+
+                        int runCount = 1;
+                        for (String lrr2Argument : lrr2Arguments) {
+                            processBuilder = new ProcessBuilder(
+                                    "java",
+                                    "-jar",
+                                    AVIGHNA_CMD_JAR,
+                                    "-aj",
+                                    JavaReflectionTestRootPath +
+                                            File.separator + module + File.separator + "target" +
+                                            File.separator + module + "-1.0-SNAPSHOT-jar-with-dependencies.jar",
+                                    "-aaj",
+                                    AVIGHNA_AGENT_JAR,
+                                    "-od",
+                                    OUTPUT_ROOT_DIR +
+                                            File.separator + module + File.separator + "avighna-agent-output-run-" + runCount,
+                                    "-rap",
+                                    ROOT_BASE_PACKAGE,
+                                    "-sdf",
+                                    "-sif",
+                                    "-sra",
+                                    "-aa",
+                                    lrr2Argument);
+
+                            runJava(processBuilder);
+
+                            String dstFile = OUTPUT_ROOT_DIR +
+                                    File.separator + module + File.separator +
+                                    "avighna-agent-output" + runCount + File.separator + "dynamic_cg.dst";
+
+                            if (runCount == 1)
+                                dst1 = mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst";
+
+                            if (runCount == 2)
+                                dst2 = mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst";
+
+                            FileUtils.copyDirectory(new File(dstFile), new File(mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst"));
+
+                            runCount++;
+                        }
+
+                        mergeZipFiles(new File(dst1), new File(dst2), new File(dstOut));
+
                     case "LRR1":
                         continue;
                     default:
@@ -159,6 +243,7 @@ public class MainRunner {
                                 "-sra");
 
                         runJava(processBuilder);
+
 
                         new File(OUTPUT_ROOT_DIR +
                                 File.separator + module + File.separator + "avighna-agent-output"  +
