@@ -223,7 +223,7 @@ public class MainRunner {
 
                         FileUtils.copyDirectory(new File(OUTPUT_ROOT_DIR +
                                 File.separator + module + File.separator +
-                                "avighna-agent-output-run-" + runCount + File.separator + "dynamicCP"), new File(mainOutputDir + File.separator + "allDotFiles" + File.separator + "dynamicCP"));
+                                "avighna-agent-output-run-" + (runCount - 1) + File.separator + "dynamicCP"), new File(mainOutputDir + File.separator + "allDotFiles" + File.separator + "dynamicCP"));
 
                         ZipUtil.generateDst(mainOutputDir.toPath().toString());
                         break;
