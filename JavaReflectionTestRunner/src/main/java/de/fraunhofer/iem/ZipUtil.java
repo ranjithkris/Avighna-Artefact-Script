@@ -1,7 +1,6 @@
 package de.fraunhofer.iem;
 
 import net.lingala.zip4j.ZipFile;
-import org.apache.commons.cli.CommandLine;
 
 import java.io.File;
 import java.io.IOException;
