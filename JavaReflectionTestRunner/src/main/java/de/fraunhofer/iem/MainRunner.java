@@ -166,6 +166,7 @@ public class MainRunner {
 
                 switch (module) {
                     case "CSR2":
+                        break;
                     case "LRR2":
                         System.out.println("Running for " + module);
                         List<String> lrr2Arguments = Arrays.asList("param1:param2", "param1");
@@ -219,6 +220,7 @@ public class MainRunner {
 
                         mergeZipFiles(new File(dst1), new File(dst2), new File(dstOut));
 
+                        break;
                     case "LRR1":
                         continue;
                     default:
