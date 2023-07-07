@@ -229,6 +229,36 @@ public class MainRunner {
                                 "avighna-agent-output-run-" + (runCount - 1) + File.separator + "dynamicCP"), new File(mainOutputDir + File.separator + "allDotFiles" + File.separator + "dynamicCP"));
 
                         ZipUtil.generateDst(mainOutputDir.toPath().toString());
+
+                        new File(OUTPUT_ROOT_DIR +
+                                File.separator + module + File.separator + "avighna-agent-output"  +
+                                File.separator + "hybrid-merger-output").mkdirs();
+
+                        String appClassPath = JavaReflectionTestRootPath +
+                                File.separator + module + File.separator +
+                                "target" + File.separator + "classes";
+                        String dtsFileName = OUTPUT_ROOT_DIR +
+                                File.separator + module + File.separator +
+                                "avighna-agent-output" + File.separator + "dynamic_cg.dst";
+                        String hybridOutputPath = OUTPUT_ROOT_DIR +
+                                File.separator + module + File.separator +
+                                "avighna-agent-output" + File.separator +
+                                "hybrid-merger-output" + File.separator;
+
+                        initializeSoot(appClassPath, null);
+
+                        int numberOfEdgesInPureStaticCallgraph = generateInitialDotGraph();
+
+                        initializeSoot(appClassPath, dtsFileName);
+
+                        new HybridCallGraph(true, numberOfEdgesInPureStaticCallgraph).merge(
+                                dtsFileName,
+                                Scene.v().getCallGraph(),
+                                hybridOutputPath,
+                                "callgraph",
+                                "callgraph",
+                                ImageType.SVG
+                        );
                         break;
                     case "LRR1":
                         continue;
