@@ -173,6 +173,9 @@ public class MainRunner {
                         List<String> lrr2Arguments = Arrays.asList("param1:param2", "param1");
 
                         File mainOutputDir = new File(OUTPUT_ROOT_DIR + File.separator + module + File.separator + "avighna-agent-output");
+
+                        mainOutputDir.deleteOnExit();
+
                         mainOutputDir.mkdirs();
 
                         new File(mainOutputDir.getAbsolutePath() + File.separator + "allDotFiles").mkdirs();
