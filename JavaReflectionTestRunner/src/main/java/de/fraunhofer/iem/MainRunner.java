@@ -174,7 +174,7 @@ public class MainRunner {
 
                         File mainOutputDir = new File(OUTPUT_ROOT_DIR + File.separator + module + File.separator + "avighna-agent-output");
 
-                        mainOutputDir.deleteOnExit();
+                        FileUtils.deleteDirectory(mainOutputDir);
 
                         mainOutputDir.mkdirs();
 
