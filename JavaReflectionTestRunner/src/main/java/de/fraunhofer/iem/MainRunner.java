@@ -216,7 +216,7 @@ public class MainRunner {
                             if (runCount == 2)
                                 ser2 = mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst";
 
-                            Files.copy(new File(serFile).toPath(), new File(mainOutputDir.getAbsoluteFile().getAbsolutePath() + File.separator + "avighna-agent-output" + File.separator + "allDotFiles" + File.separator + "dynamic_callgraph_" + runCount + ".ser").toPath());
+                            Files.copy(new File(serFile).toPath(), new File(mainOutputDir.getAbsoluteFile().getAbsolutePath() + File.separator + "allDotFiles" + File.separator + "dynamic_callgraph_" + runCount + ".ser").toPath());
 
                             runCount++;
                         }
