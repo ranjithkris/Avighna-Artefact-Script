@@ -205,7 +205,7 @@ public class MainRunner {
 
                             String dstFile = OUTPUT_ROOT_DIR +
                                     File.separator + module + File.separator +
-                                    "avighna-agent-output" + runCount + File.separator + "dynamic_cg.dst";
+                                    "avighna-agent-output-run-" + runCount + File.separator + "dynamic_cg.dst";
 
                             if (runCount == 1)
                                 dst1 = mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst";
