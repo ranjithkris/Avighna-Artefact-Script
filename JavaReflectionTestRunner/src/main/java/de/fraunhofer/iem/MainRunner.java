@@ -234,27 +234,27 @@ public class MainRunner {
                                 File.separator + module + File.separator + "avighna-agent-output"  +
                                 File.separator + "hybrid-merger-output").mkdirs();
 
-                        String appClassPath = JavaReflectionTestRootPath +
+                        String appClassPath1 = JavaReflectionTestRootPath +
                                 File.separator + module + File.separator +
                                 "target" + File.separator + "classes";
-                        String dtsFileName = OUTPUT_ROOT_DIR +
+                        String dtsFileName1 = OUTPUT_ROOT_DIR +
                                 File.separator + module + File.separator +
                                 "avighna-agent-output" + File.separator + "dynamic_cg.dst";
-                        String hybridOutputPath = OUTPUT_ROOT_DIR +
+                        String hybridOutputPath1 = OUTPUT_ROOT_DIR +
                                 File.separator + module + File.separator +
                                 "avighna-agent-output" + File.separator +
                                 "hybrid-merger-output" + File.separator;
 
-                        initializeSoot(appClassPath, null);
+                        initializeSoot(appClassPath1, null);
 
-                        int numberOfEdgesInPureStaticCallgraph = generateInitialDotGraph();
+                        int numberOfEdgesInPureStaticCallgraph1 = generateInitialDotGraph();
 
-                        initializeSoot(appClassPath, dtsFileName);
+                        initializeSoot(appClassPath1, dtsFileName1);
 
-                        new HybridCallGraph(true, numberOfEdgesInPureStaticCallgraph).merge(
-                                dtsFileName,
+                        new HybridCallGraph(true, numberOfEdgesInPureStaticCallgraph1).merge(
+                                dtsFileName1,
                                 Scene.v().getCallGraph(),
-                                hybridOutputPath,
+                                hybridOutputPath1,
                                 "callgraph",
                                 "callgraph",
                                 ImageType.SVG
