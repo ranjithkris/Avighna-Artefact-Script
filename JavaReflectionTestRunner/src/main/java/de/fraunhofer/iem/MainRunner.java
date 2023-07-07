@@ -168,6 +168,7 @@ public class MainRunner {
                 switch (module) {
                     case "CSR2":
                         break;
+                    case "LRR1":
                     case "LRR2":
                         System.out.println("Running for " + module);
                         List<String> lrr2Arguments = Arrays.asList("param1:param2", "param1");
@@ -179,10 +180,6 @@ public class MainRunner {
                         mainOutputDir.mkdirs();
 
                         new File(mainOutputDir.getAbsolutePath() + File.separator + "allDotFiles").mkdirs();
-
-                        String ser1 = "";
-                        String ser2 = "";
-                        String dstOut = mainOutputDir.getAbsolutePath() + "dynamic_cg.dst";
 
                         int runCount = 1;
                         for (String lrr2Argument : lrr2Arguments) {
@@ -212,12 +209,6 @@ public class MainRunner {
                             String serFile = OUTPUT_ROOT_DIR +
                                     File.separator + module + File.separator +
                                     "avighna-agent-output-run-" + runCount + File.separator + "allDotFiles" + File.separator + "dynamic_callgraph_1.ser";
-
-                            if (runCount == 1)
-                                ser1 = mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst";
-
-                            if (runCount == 2)
-                                ser2 = mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst";
 
                             Files.copy(new File(serFile).toPath(), new File(mainOutputDir.getAbsoluteFile().getAbsolutePath() + File.separator + "allDotFiles" + File.separator + "dynamic_callgraph_" + runCount + ".ser").toPath());
 
@@ -260,8 +251,6 @@ public class MainRunner {
                                 ImageType.SVG
                         );
                         break;
-                    case "LRR1":
-                        continue;
                     default:
                         System.out.println("Running for " + module);
                         processBuilder = new ProcessBuilder(
