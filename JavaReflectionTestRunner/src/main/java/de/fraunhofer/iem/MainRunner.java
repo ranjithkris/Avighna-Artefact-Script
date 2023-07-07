@@ -17,6 +17,7 @@ import soot.options.Options;
 import soot.util.dot.DotGraph;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -213,7 +214,7 @@ public class MainRunner {
                             if (runCount == 2)
                                 dst2 = mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst";
 
-                            FileUtils.copyDirectory(new File(dstFile), new File(mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst"));
+                            Files.copy(new File(dstFile).toPath(), new File(mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst").toPath());
 
                             runCount++;
                         }
