@@ -166,8 +166,6 @@ public class MainRunner {
                 ProcessBuilder processBuilder;
 
                 switch (module) {
-                    case "CSR2":
-                        break;
                     case "LRR1":
                     case "LRR2":
                         System.out.println("Running for " + module);
@@ -251,26 +249,50 @@ public class MainRunner {
                                 ImageType.SVG
                         );
                         break;
+                    case "CSR2":
                     default:
                         System.out.println("Running for " + module);
-                        processBuilder = new ProcessBuilder(
-                                "java",
-                                "-jar",
-                                AVIGHNA_CMD_JAR,
-                                "-aj",
-                                JavaReflectionTestRootPath +
-                                        File.separator + module + File.separator + "target" +
-                                        File.separator + module + "-1.0-SNAPSHOT-jar-with-dependencies.jar",
-                                "-aaj",
-                                AVIGHNA_AGENT_JAR,
-                                "-od",
-                                OUTPUT_ROOT_DIR +
-                                        File.separator + module + File.separator + "avighna-agent-output",
-                                "-rap",
-                                ROOT_BASE_PACKAGE,
-                                "-sdf",
-                                "-sif",
-                                "-sra");
+                        if (module.equals("CSR2")) {
+                            processBuilder = new ProcessBuilder(
+                                    "java",
+                                    "-jar",
+                                    AVIGHNA_CMD_JAR,
+                                    "-aj",
+                                    JavaReflectionTestRootPath +
+                                            File.separator + module + File.separator + "target" +
+                                            File.separator + module + "-1.0-SNAPSHOT-jar-with-dependencies.jar",
+                                    "-aaj",
+                                    AVIGHNA_AGENT_JAR,
+                                    "-od",
+                                    OUTPUT_ROOT_DIR +
+                                            File.separator + module + File.separator + "avighna-agent-output",
+                                    "-rap",
+                                    ROOT_BASE_PACKAGE,
+                                    "-sdf",
+                                    "-sif",
+                                    "-sra",
+                                    "-aa",
+                                    "de.fraunhofer.iem.TargetClass");
+                        } else {
+                            processBuilder = new ProcessBuilder(
+                                    "java",
+                                    "-jar",
+                                    AVIGHNA_CMD_JAR,
+                                    "-aj",
+                                    JavaReflectionTestRootPath +
+                                            File.separator + module + File.separator + "target" +
+                                            File.separator + module + "-1.0-SNAPSHOT-jar-with-dependencies.jar",
+                                    "-aaj",
+                                    AVIGHNA_AGENT_JAR,
+                                    "-od",
+                                    OUTPUT_ROOT_DIR +
+                                            File.separator + module + File.separator + "avighna-agent-output",
+                                    "-rap",
+                                    ROOT_BASE_PACKAGE,
+                                    "-sdf",
+                                    "-sif",
+                                    "-sra");
+                        }
 
                         runJava(processBuilder);
 
