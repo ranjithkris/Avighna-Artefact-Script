@@ -175,8 +175,10 @@ public class MainRunner {
                         File mainOutputDir = new File(OUTPUT_ROOT_DIR + File.separator + module + File.separator + "avighna-agent-output");
                         mainOutputDir.mkdirs();
 
-                        String dst1 = "";
-                        String dst2 = "";
+                        new File(mainOutputDir.getAbsolutePath() + File.separator + "allDotFiles").mkdirs();
+
+                        String ser1 = "";
+                        String ser2 = "";
                         String dstOut = mainOutputDir.getAbsolutePath() + "dynamic_cg.dst";
 
                         int runCount = 1;
@@ -204,23 +206,26 @@ public class MainRunner {
 
                             runJava(processBuilder);
 
-                            String dstFile = OUTPUT_ROOT_DIR +
+                            String serFile = OUTPUT_ROOT_DIR +
                                     File.separator + module + File.separator +
-                                    "avighna-agent-output-run-" + runCount + File.separator + "dynamic_cg.dst";
+                                    "avighna-agent-output-run-" + runCount + File.separator + "allDotFiles" + File.separator + "dynamic_callgraph_1.ser";
 
                             if (runCount == 1)
-                                dst1 = mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst";
+                                ser1 = mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst";
 
                             if (runCount == 2)
-                                dst2 = mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst";
+                                ser2 = mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst";
 
-                            Files.copy(new File(dstFile).toPath(), new File(mainOutputDir.getAbsoluteFile().getAbsolutePath() + "dynamic_cg_" + runCount + ".dst").toPath());
+                            Files.copy(new File(serFile).toPath(), new File(mainOutputDir.getAbsoluteFile().getAbsolutePath() + File.separator + "avighna-agent-output" + File.separator + "allDotFiles" + File.separator + "dynamic_callgraph_" + runCount + ".ser").toPath());
 
                             runCount++;
                         }
 
-                        mergeZipFiles(new File(dst1), new File(dst2), new File(dstOut));
+                        FileUtils.copyDirectory(new File(OUTPUT_ROOT_DIR +
+                                File.separator + module + File.separator +
+                                "avighna-agent-output-run-" + runCount + File.separator + "dynamicCP"), new File(mainOutputDir + File.separator + "allDotFiles" + File.separator + "dynamicCP"));
 
+                        ZipUtil.generateDst(mainOutputDir.toPath().toString());
                         break;
                     case "LRR1":
                         continue;
