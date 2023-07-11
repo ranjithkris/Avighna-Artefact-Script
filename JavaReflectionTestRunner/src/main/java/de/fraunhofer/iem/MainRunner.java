@@ -121,6 +121,9 @@ public class MainRunner {
         Scene.v().setEntryPoints(entries);
         Scene.v().loadNecessaryClasses();
         PackManager.v().getPack("cg").apply();
+
+        PackManager.v().getPack("wjtp").add(new Transform("wjtp.removeClinit", new RemoveClinitTransformer()));
+        PackManager.v().getPack("wjtp").apply();
     }
 
     private static void mergeZipFiles(File dst1, File dst2, File dstOut) throws IOException {
